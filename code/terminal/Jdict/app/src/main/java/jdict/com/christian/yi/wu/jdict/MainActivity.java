@@ -2,6 +2,7 @@ package jdict.com.christian.yi.wu.jdict;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, SearchWordFragment.OnClickSuggestionListener {
 
     private Button sab; // search article button
 
@@ -40,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TaskFragment tf;
 
     private LibraryFragment lf;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (swf == null) {
 
-            swf = SearchWordFragment.newInstance("こちらに単語を入れてください");
+            swf = SearchWordFragment.newInstance();
 
             trans.add(R.id.main_frame_layout, swf);
         }
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (saf == null) {
 
-            saf = SearchArticleFragment.newInstance("こちらにタイトルを入れてください");
+            saf = SearchArticleFragment.newInstance();
 
             trans.add(R.id.main_frame_layout, saf);
         }
@@ -207,5 +207,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             showLibraryFragment();
         }
+    }
+
+    @Override
+    /**
+     * launch SearchWordActivity from SearchWordFragment
+     */
+    public void onClickSuggestion() {
+
+        android.support.v4.app.FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+
+        Intent intent = new Intent(MainActivity.this, SearchWordActivity.class);
+
+        startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package jdict.com.christian.yi.wu.jdict;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,14 +9,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class SearchArticleFragment extends Fragment {
 
-    private TextView title;
-
-    private String name;
+    private Button mSuggestion;
 
     public SearchArticleFragment() {
 
@@ -27,31 +28,25 @@ public class SearchArticleFragment extends Fragment {
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_search_article, container, false);
 
-        title = (TextView) view.findViewById(R.id.search_article_textview);
+        mSuggestion = (Button) view.findViewById(R.id.search_article_button);
 
-        title.setText(name);
+        mSuggestion.setText("请输入标题");
 
-        title.setOnClickListener(new View.OnClickListener(){
+        mSuggestion.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
 
-                title.setText("我变了-" + name);
+                Toast.makeText(v.getContext(), "input title", Toast.LENGTH_LONG).show();
             }
         });
 
         return view;
     }
 
-    public static final SearchArticleFragment newInstance(String name)
+    public static final SearchArticleFragment newInstance()
     {
         SearchArticleFragment fragment = new SearchArticleFragment();
-
-        Bundle bundle = new Bundle();
-
-        bundle.putString("name", name);
-
-        fragment.setArguments(bundle);
 
         return fragment;
     }
@@ -60,12 +55,7 @@ public class SearchArticleFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle bundle = getArguments();
-
-        if (bundle != null) {
-
-            name = bundle.get("name").toString();
-        }
     }
+
 
 }

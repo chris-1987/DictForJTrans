@@ -1,5 +1,6 @@
 package jdict.com.christian.yi.wu.jdict;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,8 @@ public class SearchWordFragment extends Fragment {
 
     private Button suggestion;
 
+    private OnClickSuggestionListener mOnClickSuggestionListener;
+
     public SearchWordFragment() {
 
     }
@@ -32,14 +35,12 @@ public class SearchWordFragment extends Fragment {
 
         suggestion = (Button) view.findViewById(R.id.search_word_button);
 
-        suggestion.setText("请输入查找内容");
-
         suggestion.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
 
-
+                mOnClickSuggestionListener.onClickSuggestion();
             }
         });
 
@@ -55,7 +56,38 @@ public class SearchWordFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+        super.onCreate(savedInstanceState);
+    }
+
+
+    /*
+    a callback interface
+     */
+    public interface OnClickSuggestionListener{
+
+        public void onClickSuggestion();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+
+        super.onAttach(context);
+
+        if (context instanceof OnClickSuggestionListener) {
+
+            mOnClickSuggestionListener = (OnClickSuggestionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+
+        super.onDetach();
+
+        mOnClickSuggestionListener = null;
     }
 }
