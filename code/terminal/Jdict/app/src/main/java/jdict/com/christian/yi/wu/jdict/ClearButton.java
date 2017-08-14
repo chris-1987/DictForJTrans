@@ -8,11 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-/**
- * Created by Administrator on 2017/8/12.
- * @deprecated
- */
-
 public class ClearButton extends Button {
 
     private boolean mStatus;

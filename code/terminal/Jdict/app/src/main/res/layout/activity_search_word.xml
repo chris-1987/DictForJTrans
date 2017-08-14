@@ -1,23 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="#ffffff"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
 
-    <SearchView
-        android:id="@+id/search_word_searchview"
-        android:background="@drawable/search_word_concrete_toolbar_bg"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:queryHint="请输入查询内容"
-        android:textSize = "15sp"/>
+        android:background="@drawable/search_word_concrete_toolbar_bg"
+        android:orientation="horizontal">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/search_word_concrete_recyclerview"
+        <SearchView
+            android:id="@+id/search_word_searchview"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="5"
+            android:background="#5FFFFFFF"
+            android:queryHint="请输入查询内容"
+            android:textSize="15sp" />
+
+        <jdict.com.christian.yi.wu.jdict.ClearButton
+            android:id = "@+id/search_word_clearButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#0FFFFFFF"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/search_word_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

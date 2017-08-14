@@ -38,6 +38,12 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id = "@+id/search_word_result_textview2"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        />
+
 
 
 </LinearLayout>
