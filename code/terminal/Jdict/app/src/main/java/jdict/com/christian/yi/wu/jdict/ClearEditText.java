@@ -17,6 +17,9 @@ import android.widget.Toast;
 
 import jdict.com.christian.yi.wu.jdict.R;
 
+/**
+ * @deprecated
+ */
 public class ClearEditText extends EditText {
 
     private Drawable mClearDrawable;
@@ -52,12 +55,6 @@ public class ClearEditText extends EditText {
         setClearIconStatus(false); // set to invisible
     }
 
-    /**
-     * If push the clear button, clear the text in the editview.
-     * Check if the motion occurs at the the location where the clear button is placed. If yes, clear the text in the editview
-     * @param event
-     * @return
-     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 

@@ -7,66 +7,61 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 public class SearchWordActivity extends AppCompatActivity {
 
-    private ClearEditText mEditText;
-
-    private ClearButton mButton;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_word);
 
-        mButton = (ClearButton)findViewById(R.id.search_word_concrete_clearbutton);
+        mSearchView = (SearchView)findViewById(R.id.search_word_searchview);
 
-        mEditText = (ClearEditText)findViewById(R.id.search_word_concrete_clearedittext);
+        mSearchView.setIconifiedByDefault(false); // search block visible
 
-        mEditText.addTextChangedListener(new TextWatcher() {
+        mSearchView.setSubmitButtonEnabled(true); // submit button visible
+
+        mSearchView.onActionViewExpanded(); // action view visible
+
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
+
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public boolean onQueryTextChange(String s) {
 
+                if (TextUtils.isEmpty(s)) {
+
+
+                }
+                else {
+
+
+                }
+
+                return true;
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+            public boolean onQueryTextSubmit(String s) {
 
-                mEditText.setClearIconStatus(s.length() > 0 ? true : false);
-
-                mButton.setClearButtonStatus(s.length() > 0 ? true : false);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (mButton.getStatus() == true) { // request
+                if (!TextUtils.isEmpty(s)) {
 
                     Intent intent = new Intent(SearchWordActivity.this, SearchWordResultActivity.class);
 
-                    intent.putExtra("word", mEditText.getText().toString());
+                    intent.putExtra("word", s);
 
                     startActivity(intent);
                 }
-                else { // cancel, return back to the main activity
 
-                    Intent intent = new Intent(SearchWordActivity.this, MainActivity.class);
-
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // return back to the main activity, destroy activities on the stack until reaching the main
-
-                    startActivity(intent);
-                }
+                return true;
             }
         });
+
     }
 }

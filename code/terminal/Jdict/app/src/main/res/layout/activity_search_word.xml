@@ -5,45 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <SearchView
+        android:id="@+id/search_word_searchview"
+        android:background="@drawable/search_word_concrete_toolbar_bg"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="70dp"
+        android:queryHint="请输入查询内容"
+        android:textSize = "15sp"/>
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="@drawable/search_word_concrete_toolbar_bg">
-
-            <jdict.com.christian.yi.wu.jdict.ClearEditText
-                android:id="@+id/search_word_concrete_clearedittext"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_weight = "5"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:background="@drawable/edit_normal"
-                android:drawableRight="@drawable/delete_selector"
-                android:hint="请输入查询内容"
-                android:textSize = "15sp"/>
-
-            <jdict.com.christian.yi.wu.jdict.ClearButton
-                android:id = "@+id/search_word_concrete_clearbutton"
-                android:layout_weight = "1"
-                android:layout_width="0dp"
-                android:layout_height="fill_parent"
-                android:hint = "取消"
-                android:background="#5FFFFFFF"
-                android:textSize = "15sp"/>
-
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/search_word_concrete_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_word_concrete_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
