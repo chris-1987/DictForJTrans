@@ -1,7 +1,6 @@
 package jdict.com.christian.yi.wu.jdict;
 
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,6 +14,8 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Random;
+
+import jdict.com.christian.yi.wu.jdict.utility.MD5Encoder;
 
 
 /**
