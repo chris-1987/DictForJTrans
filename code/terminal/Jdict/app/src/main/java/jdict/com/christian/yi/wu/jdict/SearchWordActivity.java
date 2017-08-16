@@ -9,9 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -89,8 +92,7 @@ public class SearchWordActivity extends AppCompatActivity {
                     intent.putExtra("word", mSearchView.getQuery().toString());
 
                     startActivity(intent);
-                }
-                else { // back to main activity
+                } else { // back to main activity
 
                     Intent intent = new Intent(SearchWordActivity.this, MainActivity.class);
 
@@ -101,7 +103,7 @@ public class SearchWordActivity extends AppCompatActivity {
             }
         });
 
-
+        // display history search records
         SearchWordDAO dao = new SearchWordDAO(SearchWordActivity.this);
 
         ArrayList<Word> wordList = dao.dbQueryAll();
@@ -109,5 +111,19 @@ public class SearchWordActivity extends AppCompatActivity {
         WordListAdapter wordListAdapter = new WordListAdapter(this, wordList);
 
         mListView.setAdapter(wordListAdapter);
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                TextView tv = (TextView) view.findViewById(R.id.item_word_content);
+
+                Intent intent = new Intent(SearchWordActivity.this, SearchWordResultActivity.class);
+
+                intent.putExtra("word", tv.getText());
+
+                startActivity(intent);
+            }
+        });
     }
 }

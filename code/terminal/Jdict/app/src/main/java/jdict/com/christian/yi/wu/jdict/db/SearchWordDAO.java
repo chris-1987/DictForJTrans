@@ -20,14 +20,16 @@ public class SearchWordDAO {
 
     public SearchWordDAO(Context context) {
 
-        dbhelper = new SearchWordDatabaseHelper(context, null, null, 1);
+        dbhelper = SearchWordDatabaseHelper.newInstance(context);
     }
 
     public void dbInsertWord(String content, String meaning, String language) {
 
         db = dbhelper.getWritableDatabase();
 
-       ContentValues cv = new ContentValues();
+        db.beginTransaction();
+
+        ContentValues cv = new ContentValues();
 
         cv.put("content", content);
 
@@ -35,22 +37,24 @@ public class SearchWordDAO {
 
         cv.put("language", language);
 
-        db.insert("t_word", "content", cv);
+        db.insert("t_word", null, cv);
 
-        db.close();
+        db.setTransactionSuccessful();
+
+        db.endTransaction();
     }
 
     public Word dbQueryWord(String content, String language) {
 
-        Word word = null;
-
         db = dbhelper.getWritableDatabase();
 
-        String sql = "select * from t_word where content = ? and language = ?";
+        String selection = "content = ? and language = ?";
 
         String[] selectionArgs = new String[]{content, language};
 
-        Cursor cursor = db.rawQuery(sql, selectionArgs);
+        Cursor cursor = db.query("t_word", null, selection, selectionArgs, null, null, null);
+
+        Word word = null;
 
         if (cursor.moveToNext()) {
 
@@ -61,9 +65,11 @@ public class SearchWordDAO {
             word.setContent(cursor.getString(cursor.getColumnIndex("content")));
 
             word.setMeaning(cursor.getString(cursor.getColumnIndex("meaning")));
+
+            word.setLanguage(cursor.getString(cursor.getColumnIndex("language")));
         }
 
-        db.close();
+        cursor.close();
 
         return word;
     }
@@ -72,22 +78,26 @@ public class SearchWordDAO {
 
         db = dbhelper.getWritableDatabase();
 
-        String sql = "delete from t_word where id = ?";
+        db.beginTransaction();
 
-        Object[] bindArgs = new Object[]{id};
+        String whereClause = "id = ?";
 
-        db.execSQL(sql, bindArgs);
+        String[] whereArgs = new String[]{Integer.toString(id)};
 
-        db.close();
+        db.delete("t_word",whereClause, whereArgs);
+
+        db.setTransactionSuccessful();
+
+        db.endTransaction();
+
+        System.out.println("here3");
     }
 
     public ArrayList<Word> dbQueryAll() {
 
         db = dbhelper.getWritableDatabase();
 
-        String sql = "select * from t_word";
-
-        Cursor cursor = db.rawQuery(sql, null);
+        Cursor cursor = db.query("t_word", null, null, null, null, null,null);
 
         ArrayList<Word> wordList = new ArrayList<Word>();
 
@@ -106,7 +116,10 @@ public class SearchWordDAO {
             wordList.add(word);
         }
 
-        db.close();
+        cursor.close();
+
+
+        System.out.println("here4");
 
         return wordList;
     }

@@ -89,12 +89,16 @@ public class SearchWordResultActivity extends AppCompatActivity {
 
                     Word word = dao.dbQueryWord(mWord, "zh");
 
+                    System.out.println("query1: " + word);
+
                     if (word != null) {
 
                         dao.dbDeleteWord(word.getId()); // delete word having a same content
                     }
 
                     dao.dbInsertWord(mWord, result ,"zh"); // insert the word
+
+                    System.out.println("query2: " + dao.dbQueryWord(mWord, "zh"));
                 }
 
                 @Override
@@ -103,8 +107,6 @@ public class SearchWordResultActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "failed to retrieve the answer due to" + exception, Toast.LENGTH_LONG).show();
                 }
             });
-
-
         } catch (Exception e) {
 
             e.printStackTrace();

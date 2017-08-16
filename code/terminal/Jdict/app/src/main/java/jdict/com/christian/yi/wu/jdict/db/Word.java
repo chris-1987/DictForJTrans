@@ -15,18 +15,22 @@ public class Word {
     private String mLanguage;
 
     public int getId() {
+
         return mId;
     }
 
     public void setId(int id) {
+
         mId = id;
     }
 
     public String getLanguage() {
+
         return mLanguage;
     }
 
     public void setLanguage(String language) {
+
         mLanguage = language;
     }
 
@@ -48,5 +52,15 @@ public class Word {
     public void setMeaning(String meaning) {
 
         mMeaning = meaning;
+    }
+
+    @Override
+    public String toString() {
+        return "Word{" +
+                "mContent='" + mContent + '\'' +
+                ", mId=" + mId +
+                ", mLanguage='" + mLanguage + '\'' +
+                ", mMeaning='" + mMeaning + '\'' +
+                '}';
     }
 }

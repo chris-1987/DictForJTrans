@@ -24,9 +24,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="50dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="50dp"
-            android:textSize="60dp" />
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="50dp"
+            android:textSize="50dp"
+            android:maxLines = "1"
+            android:ellipsize="end"/>
 
         <Button
             android:id="@+id/search_word_result_button2"
