@@ -1,5 +1,7 @@
 package jdict.com.christian.yi.wu.jdict.db;
 
+import java.util.Date;
+
 /**
  * Created by Administrator on 2017/8/14.
  */
@@ -12,7 +14,7 @@ public class Word {
 
     private String mMeaning;
 
-    private String mLanguage;
+    private Date mAddtime;
 
     public int getId() {
 
@@ -24,14 +26,14 @@ public class Word {
         mId = id;
     }
 
-    public String getLanguage() {
+    public Date getAddtime() {
 
-        return mLanguage;
+        return mAddtime;
     }
 
-    public void setLanguage(String language) {
+    public void setAddtime(Date addtime) {
 
-        mLanguage = language;
+        mAddtime = addtime;
     }
 
     public String getContent() {
@@ -59,7 +61,7 @@ public class Word {
         return "Word{" +
                 "mContent='" + mContent + '\'' +
                 ", mId=" + mId +
-                ", mLanguage='" + mLanguage + '\'' +
+                ", mLanguage='" + mAddtime + '\'' +
                 ", mMeaning='" + mMeaning + '\'' +
                 '}';
     }

@@ -4,9 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Administrator on 2017/8/14.
@@ -23,7 +25,14 @@ public class SearchWordDAO {
         dbhelper = SearchWordDatabaseHelper.newInstance(context);
     }
 
-    public void dbInsertWord(String content, String meaning, String language) {
+    /**
+     * cache in tbl_cache_cword
+     *
+     * @param content content related to the word (hanzi by default)
+     * @param meaning meaning of the word
+     * @param language zh or jp
+     */
+    public void dbCacheWord(String content, String meaning, String language) {
 
         db = dbhelper.getWritableDatabase();
 
@@ -35,92 +44,291 @@ public class SearchWordDAO {
 
         cv.put("meaning", meaning);
 
-        cv.put("language", language);
-
-        db.insert("t_word", null, cv);
+        switch (language) {
+            case "zh":
+                db.insert("tbl_cache_cword", null, cv);
+                break;
+            case "jp":
+                db.insert("tbl_cache_jword", null, cv);
+                break;
+        }
 
         db.setTransactionSuccessful();
 
         db.endTransaction();
     }
 
-    public Word dbQueryWord(String content, String language) {
+    /**
+     * search wordview for the target word
+     *
+     * @param content  hanzi for "zh" and katakana for "jp"
+     * @param language zh or jp
+     * @return wordview list for the target word
+     */
+    public ArrayList<WordView> dbQueryWord(String content, String language) {
 
         db = dbhelper.getWritableDatabase();
 
-        String selection = "content = ? and language = ?";
+        ArrayList<WordView> wordViewList = new ArrayList<WordView>();
 
-        String[] selectionArgs = new String[]{content, language};
+        // search content in the specified cache table
+        {
+            String selection = "content = ?";
 
-        Cursor cursor = db.query("t_word", null, selection, selectionArgs, null, null, null);
+            String[] selectionArgs = new String[]{content};
 
-        Word word = null;
+            Cursor cursor = null;
 
-        if (cursor.moveToNext()) {
+            switch (language) {
 
-            word = new Word();
+                case "zh":
+                    cursor = db.query("tbl_cache_cword", null, selection, selectionArgs, null, null, null);
+                    break;
 
-            word.setId(cursor.getInt(cursor.getColumnIndex("id")));
+                case "jp":
+                    cursor = db.query("tbl_cache_jword", null, selection, selectionArgs, null, null, null);
+                    break;
+            }
 
-            word.setContent(cursor.getString(cursor.getColumnIndex("content")));
+            for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()) {
 
-            word.setMeaning(cursor.getString(cursor.getColumnIndex("meaning")));
+                WordView wordView = new WordView();
 
-            word.setLanguage(cursor.getString(cursor.getColumnIndex("language")));
+                wordView.setContent(cursor.getString(cursor.getColumnIndex("content")));
+
+                wordView.setMeaning(cursor.getString(cursor.getColumnIndex("meaning")));
+
+                wordViewList.add(wordView);
+            }
+
+            cursor.close();
         }
 
-        cursor.close();
+        // search for tbl_cword
+        {
+            Cursor cursor = null;
 
-        return word;
+            String selection = null;
+
+            String[] selectionArgs = null;
+
+            switch (language) {
+
+                case "zh":
+
+                    selection = "hanzi = ?";
+
+                    selectionArgs = new String[]{content};
+
+                    cursor = db.query("tbl_cword", null, selection, selectionArgs, null, null, null);
+
+                    for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()) {
+
+                        WordView wordView = new WordView();
+
+                        wordView.setContent(cursor.getString(cursor.getColumnIndex("hanzi")));
+
+                        wordView.setMeaning(cursor.getString(cursor.getColumnIndex("meaning")));
+
+                        wordViewList.add(wordView);
+                    }
+
+                    break;
+
+                case "jp":
+
+                    selection = "hiragana = ? or kannji = ?";
+
+                    selectionArgs = new String[]{content, content};
+
+                    cursor = db.query("tbl_jword", null, selection, selectionArgs, null, null, null);
+
+                    for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()) {
+
+                        WordView wordView = new WordView();
+
+                        wordView.setContent(cursor.getString(cursor.getColumnIndex("hiragana")) + " " + cursor.getString(cursor.getColumnIndex("kannji")));
+
+                        wordView.setMeaning(cursor.getString(cursor.getColumnIndex("meaning")));
+
+                        wordViewList.add(wordView);
+                    }
+
+                    break;
+            }
+
+            cursor.close();
+        }
+
+        return wordViewList;
     }
 
-    public void dbDeleteWord(int id) {
+
+    /**
+     * clear the specified cache table
+     */
+    public void dbClearCacheCWord(String language) {
 
         db = dbhelper.getWritableDatabase();
 
         db.beginTransaction();
 
-        String whereClause = "id = ?";
+        switch (language) {
 
-        String[] whereArgs = new String[]{Integer.toString(id)};
-
-        db.delete("t_word",whereClause, whereArgs);
+            case "zh":
+                db.delete("tbl_cache_cword", null, null);
+                break;
+            case "jp":
+                db.delete("tbl_cache_jword", null, null);
+                break;
+        }
 
         db.setTransactionSuccessful();
 
         db.endTransaction();
-
-        System.out.println("here3");
     }
 
-    public ArrayList<Word> dbQueryAll() {
+    /**
+     * @return cwords cached in the specified cache table
+     */
+    public ArrayList<WordView> dbQueryCachedWords(String language) {
 
         db = dbhelper.getWritableDatabase();
 
-        Cursor cursor = db.query("t_word", null, null, null, null, null,null);
+        Cursor cursor = null;
 
-        ArrayList<Word> wordList = new ArrayList<Word>();
+        switch (language) {
+
+            case "zh":
+                cursor = db.query("tbl_cache_cword", null, null, null, null, null, null);
+                break;
+
+            case "jp":
+                cursor = db.query("tbl_cache_jword", null, null, null, null, null, null);
+                break;
+        }
+
+        ArrayList<WordView> wordViewList = new ArrayList<WordView>();
 
         for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()) {
 
-            Word word = new Word();
+            WordView wordView = new WordView();
 
-            word.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            wordView.setContent(cursor.getString(cursor.getColumnIndex("content")));
 
-            word.setContent(cursor.getString(cursor.getColumnIndex("content")));
+            wordView.setMeaning(cursor.getString(cursor.getColumnIndex("meaning")));
 
-            word.setMeaning(cursor.getString(cursor.getColumnIndex("meaning")));
-
-            word.setLanguage(cursor.getString(cursor.getColumnIndex("language")));
-
-            wordList.add(word);
+            wordViewList.add(wordView);
         }
 
         cursor.close();
 
+        return wordViewList;
+    }
 
-        System.out.println("here4");
+    /**
+     * search in approximate mode
+     * @param content prefix
+     * @param language zh or jp
+     * @return records match content*
+     */
+    public ArrayList<WordView> dbQuerySuggestion(String content, String language) {
 
-        return wordList;
+        db = dbhelper.getWritableDatabase();
+
+        ArrayList<WordView> wordViewList = new ArrayList<WordView>();
+
+        // search content in the specified cache table
+        {
+            String selection = "content like '" + content + "%'";
+
+            String[] selectionArgs = new String[]{content};
+
+            Cursor cursor = null;
+
+            switch (language) {
+
+                case "zh":
+                    cursor = db.query("tbl_cache_cword", null, selection, null, null, null, null);
+                    break;
+
+                case "jp":
+                    cursor = db.query("tbl_cache_jword", null, selection, null, null, null, null);
+                    break;
+            }
+
+            for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()) {
+
+                WordView wordView = new WordView();
+
+                wordView.setContent(cursor.getString(cursor.getColumnIndex("content")));
+
+                wordView.setMeaning(cursor.getString(cursor.getColumnIndex("meaning")));
+
+                wordViewList.add(wordView);
+            }
+
+            cursor.close();
+        }
+
+//        // search for tbl_cword
+//        {
+//            Cursor cursor = null;
+//
+//            String selection = null;
+//
+//            String[] selectionArgs = null;
+//
+//            switch (language) {
+//
+//                case "zh":
+//
+//                    selection = "hanzi like ?%";
+//
+//                    selectionArgs = new String[]{content};
+//
+//                    cursor = db.query("tbl_cword", null, selection, selectionArgs, null, null, null);
+//
+//                    for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()) {
+//
+//                        WordView wordView = new WordView();
+//
+//                        wordView.setContent(cursor.getString(cursor.getColumnIndex("hanzi")));
+//
+//                        wordView.setMeaning(cursor.getString(cursor.getColumnIndex("meaning")));
+//
+//                        wordViewList.add(wordView);
+//                    }
+//
+//                    cursor.close();
+//
+//                    break;
+//
+//                case "jp":
+//
+//                    selection = "hiragana like ?% or kannji like ?%";
+//
+//                    selectionArgs = new String[]{content, content};
+//
+//                    cursor = db.query("tbl_jword", null, selection, selectionArgs, null, null, null);
+//
+//                    for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()) {
+//
+//                        WordView wordView = new WordView();
+//
+//                        wordView.setContent(cursor.getString(cursor.getColumnIndex("hiragana")) + " " + cursor.getString(cursor.getColumnIndex("kannji")));
+//
+//                        wordView.setMeaning(cursor.getString(cursor.getColumnIndex("meaning")));
+//
+//                        wordViewList.add(wordView);
+//                    }
+//
+//                    cursor.close();
+//
+//                    break;
+//            }
+//        }
+
+        return wordViewList;
     }
 }

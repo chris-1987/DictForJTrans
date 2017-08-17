@@ -14,27 +14,27 @@ import jdict.com.christian.yi.wu.jdict.R;
  * Created by Administrator on 2017/8/14.
  */
 
-public class WordListAdapter extends BaseAdapter {
+public class WordViewListAdapter extends BaseAdapter {
 
     private Context mContext;
 
-    private ArrayList<Word> mWordList;
+    private ArrayList<WordView> mWordViewList;
 
-    public WordListAdapter(Context context, ArrayList<Word> wordList) {
+    public WordViewListAdapter(Context context, ArrayList<WordView> wordViewList) {
 
         mContext = context;
 
-        mWordList = wordList;
+        mWordViewList = wordViewList;
     }
 
     @Override
     public int getCount() {
-        return mWordList.size();
+        return mWordViewList.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return mWordList.get(i);
+        return mWordViewList.get(i);
     }
 
     @Override
@@ -60,11 +60,11 @@ public class WordListAdapter extends BaseAdapter {
         TextView item_word_meaning = (TextView) view.findViewById(R.id.item_word_meaning);
 
         //找到内容
-        Word word = mWordList.get(i);
+        WordView wordview = mWordViewList.get(i);
 
         //设置内容
-        item_word_content.setText(word.getContent());
-        item_word_meaning.setText(word.getMeaning());
+        item_word_content.setText(wordview.getContent());
+        item_word_meaning.setText(wordview.getMeaning());
 
         return view;
     }

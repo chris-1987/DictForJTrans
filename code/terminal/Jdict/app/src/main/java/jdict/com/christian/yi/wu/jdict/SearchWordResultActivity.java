@@ -9,13 +9,22 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import jdict.com.christian.yi.wu.jdict.db.SearchWordDAO;
 import jdict.com.christian.yi.wu.jdict.db.SearchWordDatabaseHelper;
 import jdict.com.christian.yi.wu.jdict.db.Word;
+import jdict.com.christian.yi.wu.jdict.db.WordView;
+import jdict.com.christian.yi.wu.jdict.db.WordViewListAdapter;
 
 public class SearchWordResultActivity extends AppCompatActivity {
 
-    private String mWord; // word handler
+    private String mContent; // word handler
+
+    private String mFromLanguage;
+
+    private String mToLanguage;
 
     private TextView mTextView1; // display word
 
@@ -37,9 +46,14 @@ public class SearchWordResultActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        mWord = extras.getString("word");
+        mContent = extras.getString("content");
 
-        mTextView1.setText(mWord);
+        mFromLanguage = extras.getString("fromLanguage");
+
+        mToLanguage = extras.getString("toLanguage");
+
+        // set textview1
+        mTextView1.setText(mContent);
 
         // get the button for listening to the "return back" event
         mButton1 = (Button) findViewById(R.id.search_word_result_button1);
@@ -71,46 +85,51 @@ public class SearchWordResultActivity extends AppCompatActivity {
         // get the textview for showing the traslation
         mTextView2 = (TextView) findViewById(R.id.search_word_result_textview2);
 
-        // send a request to baidu for retrieving the translation
-        try {
+        // search
+        SearchWordDAO dao = new SearchWordDAO(SearchWordResultActivity.this);
+        ArrayList<WordView> wordViewList = dao.dbQueryWord(mContent, mFromLanguage);
 
-            SearchWordRequestUtils requestUtils = new SearchWordRequestUtils();
+        if (wordViewList.size() == 0) { //  search online
 
-            requestUtils.translate(mWord, "zh", "jp", new HttpCallBack() {
+            // send a request to baidu for retrieving the translation
+            try {
 
-                @Override
-                public void onSuccess(String result) {
+                SearchWordRequestUtils requestUtils = new SearchWordRequestUtils();
 
-                    // set text
-                    mTextView2.setText(result);
+                requestUtils.translate(mContent, mFromLanguage, mToLanguage, new HttpCallBack() {
 
-                    // persistent storage
-                    SearchWordDAO dao = new SearchWordDAO(SearchWordResultActivity.this);
+                    @Override
+                    public void onSuccess(String result) {
 
-                    Word word = dao.dbQueryWord(mWord, "zh");
+                        // persistent storage
+                        SearchWordDAO dao = new SearchWordDAO(SearchWordResultActivity.this);
+                        dao.dbCacheWord(mContent, result, mFromLanguage);
 
-                    System.out.println("query1: " + word);
-
-                    if (word != null) {
-
-                        dao.dbDeleteWord(word.getId()); // delete word having a same content
+                        // show result
+                        mTextView2.setText(result);
                     }
 
-                    dao.dbInsertWord(mWord, result ,"zh"); // insert the word
+                    @Override
+                    public void onFailure(String exception) {
 
-                    System.out.println("query2: " + dao.dbQueryWord(mWord, "zh"));
-                }
+                        Toast.makeText(getApplicationContext(), "failed to retrieve the answer due to" + exception, Toast.LENGTH_LONG).show();
+                    }
+                });
+            } catch (Exception e) {
 
-                @Override
-                public void onFailure(String exception) {
+                e.printStackTrace();
+            }
+        }
+        else { // show result
 
-                    Toast.makeText(getApplicationContext(), "failed to retrieve the answer due to" + exception, Toast.LENGTH_LONG).show();
-                }
-            });
-        } catch (Exception e) {
+            String meaning = "";
 
-            e.printStackTrace();
+            for(WordView wordView :wordViewList) {
+
+                meaning = meaning + wordView.getMeaning() + "\n";
+            }
+
+            mTextView2.setText(meaning);
         }
     }
-
 }
