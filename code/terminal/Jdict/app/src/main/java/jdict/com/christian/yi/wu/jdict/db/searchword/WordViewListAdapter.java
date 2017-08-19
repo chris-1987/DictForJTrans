@@ -1,4 +1,4 @@
-package jdict.com.christian.yi.wu.jdict.db;
+package jdict.com.christian.yi.wu.jdict.db.searchword;
 
 import android.content.Context;
 import android.view.View;

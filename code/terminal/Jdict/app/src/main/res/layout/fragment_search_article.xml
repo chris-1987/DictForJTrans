@@ -1,15 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/search_article_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#dddddd">
+    android:background="#ffffffff"
+    android:orientation="vertical">
+
+    <SearchView
+        android:id="@+id/search_article_searchview"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:queryHint="こちらに作者とタイトルを"
+        android:background="#dddddddd"
+        android:textSize="15sp" />
 
     <Button
-        android:id="@+id/search_article_button"
+        android:id = "@+id/search_article_update_article_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint= "最新" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id = "@+id/search_article_update_article_image_button1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"/>
+
+        <ImageButton
+            android:id = "@+id/search_article_update_article_image_button2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id = "@+id/search_article_update_article_image_button3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <Button
+        android:id = "@+id/search_article_underwork_article_button"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#000000"/>
+        android:hint= "連載中"/>
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id = "@+id/search_article_underwork_article_image_button1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id = "@+id/search_article_underwork_article_image_button2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id = "@+id/search_article_underwork_article_image_button3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <Button
+        android:id = "@+id/search_article_finished_article_button"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint = "完本"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id = "@+id/search_article_finished_article_image_button1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id = "@+id/search_article_finished_article_image_button2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id = "@+id/search_article_finished_article_image_button3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

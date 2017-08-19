@@ -1,11 +1,8 @@
-package jdict.com.christian.yi.wu.jdict;
+package jdict.com.christian.yi.wu.jdict.searchword;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +13,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import jdict.com.christian.yi.wu.jdict.db.SearchWordDAO;
-import jdict.com.christian.yi.wu.jdict.db.WordView;
-import jdict.com.christian.yi.wu.jdict.db.WordViewListAdapter;
+import jdict.com.christian.yi.wu.jdict.R;
+import jdict.com.christian.yi.wu.jdict.db.searchword.SearchWordDAO;
+import jdict.com.christian.yi.wu.jdict.db.searchword.WordView;
+import jdict.com.christian.yi.wu.jdict.db.searchword.WordViewListAdapter;
 
 
 public class SearchWordLanguageFragment extends Fragment {
@@ -135,7 +133,6 @@ public class SearchWordLanguageFragment extends Fragment {
 
         mClearButton.setVisibility(View.GONE);
     }
-
 
     /**
      * conduct a complete match

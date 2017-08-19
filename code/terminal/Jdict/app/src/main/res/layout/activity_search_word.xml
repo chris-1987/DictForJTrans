@@ -22,7 +22,7 @@
             android:queryHint="请输入查询内容"
             android:textSize="15sp" />
 
-        <jdict.com.christian.yi.wu.jdict.ClearButton
+        <jdict.com.christian.yi.wu.jdict.utility.ClearButton
             android:id="@+id/search_word_clearButton"
             android:layout_width="0dp"
             android:layout_height="match_parent"

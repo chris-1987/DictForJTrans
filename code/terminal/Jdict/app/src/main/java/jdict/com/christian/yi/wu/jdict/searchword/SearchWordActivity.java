@@ -1,26 +1,16 @@
-package jdict.com.christian.yi.wu.jdict;
+package jdict.com.christian.yi.wu.jdict.searchword;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.TabHost;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-
-import jdict.com.christian.yi.wu.jdict.db.SearchWordDAO;
-import jdict.com.christian.yi.wu.jdict.db.Word;
+import jdict.com.christian.yi.wu.jdict.MainActivity;
+import jdict.com.christian.yi.wu.jdict.R;
+import jdict.com.christian.yi.wu.jdict.utility.ClearButton;
 
 public class SearchWordActivity extends AppCompatActivity implements View.OnClickListener {
 

@@ -1,4 +1,4 @@
-package jdict.com.christian.yi.wu.jdict.db;
+package jdict.com.christian.yi.wu.jdict.db.searchword;
 
 import java.util.Date;
 

@@ -22,12 +22,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SearchWordActivity"
+            android:name=".searchword.SearchWordActivity"
             android:label="@string/title_activity_search_word"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".SearchWordResultActivity"
+            android:name=".searchword.SearchWordResultActivity"
             android:label="@string/title_activity_search_word_result"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"></activity>

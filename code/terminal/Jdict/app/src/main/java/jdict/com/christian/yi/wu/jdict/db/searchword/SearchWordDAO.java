@@ -1,14 +1,11 @@
-package jdict.com.christian.yi.wu.jdict.db;
+package jdict.com.christian.yi.wu.jdict.db.searchword;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Created by Administrator on 2017/8/14.

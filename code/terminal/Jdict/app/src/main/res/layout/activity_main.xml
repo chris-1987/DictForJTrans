@@ -36,7 +36,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="#ffffff"
-            android:text="语库"/>
+            android:text="发现"/>
         <Button
             android:id = "@+id/task_button"
             android:layout_weight="1"

@@ -1,4 +1,4 @@
-package jdict.com.christian.yi.wu.jdict;
+package jdict.com.christian.yi.wu.jdict.utility;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

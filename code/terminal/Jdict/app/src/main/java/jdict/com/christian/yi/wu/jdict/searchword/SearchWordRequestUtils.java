@@ -1,4 +1,4 @@
-package jdict.com.christian.yi.wu.jdict;
+package jdict.com.christian.yi.wu.jdict.searchword;
 
 import android.os.AsyncTask;
 
@@ -15,6 +15,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Random;
 
+import jdict.com.christian.yi.wu.jdict.utility.HttpCallBack;
 import jdict.com.christian.yi.wu.jdict.utility.MD5Encoder;
 
 

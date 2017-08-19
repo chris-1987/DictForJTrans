@@ -1,7 +1,6 @@
-package jdict.com.christian.yi.wu.jdict.db;
+package jdict.com.christian.yi.wu.jdict.db.searchword;
 
 import android.content.Context;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -46,7 +45,7 @@ public class SearchWordDatabaseHelper extends SQLiteOpenHelper {
     /**
      * japanese word (hiragana, katakana, meaning)
      */
-    private static final String DATABASE_NAME = "jdict.db";
+    private static final String DATABASE_NAME = "word.db";
 
     private static final int VERSION = 1;
 

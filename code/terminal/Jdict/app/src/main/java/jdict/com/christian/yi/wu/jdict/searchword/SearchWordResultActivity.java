@@ -1,7 +1,6 @@
-package jdict.com.christian.yi.wu.jdict;
+package jdict.com.christian.yi.wu.jdict.searchword;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,13 +9,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
-import jdict.com.christian.yi.wu.jdict.db.SearchWordDAO;
-import jdict.com.christian.yi.wu.jdict.db.SearchWordDatabaseHelper;
-import jdict.com.christian.yi.wu.jdict.db.Word;
-import jdict.com.christian.yi.wu.jdict.db.WordView;
-import jdict.com.christian.yi.wu.jdict.db.WordViewListAdapter;
+import jdict.com.christian.yi.wu.jdict.R;
+import jdict.com.christian.yi.wu.jdict.db.searchword.SearchWordDAO;
+import jdict.com.christian.yi.wu.jdict.db.searchword.WordView;
+import jdict.com.christian.yi.wu.jdict.utility.HttpCallBack;
 
 public class SearchWordResultActivity extends AppCompatActivity {
 
