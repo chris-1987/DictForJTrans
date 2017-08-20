@@ -13,24 +13,18 @@ import java.util.Date;
 public class SearchArticleDatabaseHelper extends SQLiteOpenHelper {
 
     //
-    private static final String CREATE_TBL_UPDATED_JBOOK = "create table if not exists tbl_updated_jbook("
+    private static final String CREATE_TBL_CACHE_JBOOK = "create table if not exists tbl_cache_jbook("
             + "id integer primary key autoincrement, "
             + "author varchar(255) not null,"
             + "title varchar(255) not null,"
+            + "finished integer not null,"
             + "img_url varchar(255),"
             + "summary varchar(1000))";
 
-    private static final String CREATE_TBL_FINISHED_JBOOK = "create table if not exists tbl_finished_jbook("
-            + "id integer primary key autoincrement, "
-            + "author varchar(255) not null,"
-            + "title varchar(255) not null,"
-            + "img_url varchar(255),"
-            + "summary varchar(1000)";
-
-    private static final String CREATE_TBL_JCHAPTER = "create table if not exists tbl_jchapter("
+    private static final String CREATE_TBL_CACHE_JCHAPTER = "create table if not exists tbl_cache_jchapter("
             + "id integer primary key autoincrement, "
             + "title varchar(255) not null,"
-            + "summary varchar(1000),"
+            + "file_url varchar(1000),"
             + "bookid integer not null,"
             + "sequenceid integer not null)";
 
@@ -57,11 +51,9 @@ public class SearchArticleDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
-        sqLiteDatabase.execSQL(CREATE_TBL_UPDATED_JBOOK);
+        sqLiteDatabase.execSQL(CREATE_TBL_CACHE_JBOOK);
 
-        sqLiteDatabase.execSQL(CREATE_TBL_FINISHED_JBOOK);
-
-        sqLiteDatabase.execSQL(CREATE_TBL_JCHAPTER);
+        sqLiteDatabase.execSQL(CREATE_TBL_CACHE_JCHAPTER);
     }
 
     @Override

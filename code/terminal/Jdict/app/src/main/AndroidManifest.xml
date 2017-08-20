@@ -30,6 +30,10 @@
             android:name=".searchword.SearchWordResultActivity"
             android:label="@string/title_activity_search_word_result"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".searcharticle.ShowBookActivity"
+            android:label="@string/title_activity_show_book"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -7,49 +7,19 @@
     android:orientation="vertical">
 
     <SearchView
-        android:id="@+id/search_article_searchview"
+        android:id="@+id/search_book_searchview"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:queryHint="こちらに作者とタイトルを"
+        android:queryHint="作者、作名を入力してください"
         android:background="#dddddddd"
         android:textSize="15sp" />
 
     <Button
-        android:id = "@+id/search_article_update_article_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint= "最新" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id = "@+id/search_article_update_article_image_button1"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"/>
-
-        <ImageButton
-            android:id = "@+id/search_article_update_article_image_button2"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-
-        <ImageButton
-            android:id = "@+id/search_article_update_article_image_button3"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <Button
-        android:id = "@+id/search_article_underwork_article_button"
+        android:id = "@+id/search_article_unfinished_book_button"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint= "連載中"/>
+        android:hint= "更新"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -57,26 +27,26 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id = "@+id/search_article_underwork_article_image_button1"
+            android:id = "@+id/search_article_unfinished_book_image_button1"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
 
         <ImageButton
-            android:id = "@+id/search_article_underwork_article_image_button2"
+            android:id = "@+id/search_article_unfinished_book_image_button2"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
 
         <ImageButton
-            android:id = "@+id/search_article_underwork_article_image_button3"
+            android:id = "@+id/search_article_unfinished_book_image_button3"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
     <Button
-        android:id = "@+id/search_article_finished_article_button"
+        android:id = "@+id/search_article_finished_book_button"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -88,19 +58,19 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id = "@+id/search_article_finished_article_image_button1"
+            android:id = "@+id/search_article_finished_book_image_button1"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
 
         <ImageButton
-            android:id = "@+id/search_article_finished_article_image_button2"
+            android:id = "@+id/search_article_finished_book_image_button2"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />
 
         <ImageButton
-            android:id = "@+id/search_article_finished_article_image_button3"
+            android:id = "@+id/search_article_finished_book_image_button3"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content" />

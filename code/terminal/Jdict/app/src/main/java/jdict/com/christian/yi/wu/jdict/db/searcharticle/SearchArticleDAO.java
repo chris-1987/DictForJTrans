@@ -10,8 +10,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 
-import jdict.com.christian.yi.wu.jdict.utility.HttpPostAsyncTask;
-
 /**
  * Created by Administrator on 2017/8/19.
  */
@@ -30,74 +28,69 @@ public class SearchArticleDAO {
     /**
      * clear database
      */
-    private void clearDB() {
+    public void clearDB() {
 
         db = dbhelper.getWritableDatabase();
+        db.beginTransaction();
 
-        db.delete("tbl_updated_jbook", null, null);
-        db.delete("tbl_finished_jbook", null, null);
-        db.delete("tbl_jchapter", null, null);
+        db.delete("tbl_cache_jbook", null, null);
+        db.delete("tbl_cache_jchapter", null, null);
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
     }
 
     /**
      * update database
      *
-     * @param finishedBookList finished book list
-     * @param updatedBookList updated book list
+     * @param bookList book list
      * @param chapterList chapter list
      * @note call the function after the execution of clearDB
      */
-    private void updateDB(ArrayList<JBook> finishedBookList, ArrayList<JBook> updatedBookList, ArrayList<JChapter> chapterList) {
+    public void updateDB(ArrayList<JBook> bookList, ArrayList<JChapter> chapterList) {
 
         db = dbhelper.getWritableDatabase();
+        db.beginTransaction();
 
-        for (JBook book : finishedBookList) {
-
+        for (JBook book : bookList) {
             ContentValues cv = new ContentValues();
             cv.put("id", book.getId());
             cv.put("author", book.getAuthor());
             cv.put("title", book.getTitle());
             cv.put("img_url", book.getImg_url());
             cv.put("summary", book.getSummary());
-            db.insert("tbl_finshed_jbook", null, cv);
-        }
-
-        for (JBook book : updatedBookList) {
-
-            ContentValues cv = new ContentValues();
-            cv.put("id", book.getId());
-            cv.put("author", book.getAuthor());
-            cv.put("title", book.getTitle());
-            cv.put("img_url", book.getImg_url());
-            cv.put("summary", book.getSummary());
-            db.insert("tbl_updated_jbook", null, cv);
+            cv.put("finished", book.getFinished());
+            db.insert("tbl_cache_jbook", null, cv);
         }
 
         for (JChapter chapter : chapterList) {
-
             ContentValues cv = new ContentValues();
             cv.put("id", chapter.getId());
-            cv.put("author", chapter.getBookid());
+            cv.put("bookid", chapter.getBookid());
+            cv.put("sequenceid", chapter.getSequenceid());
             cv.put("title", chapter.getTitle());
-            cv.put("img_url", chapter.getSequenceid());
-            cv.put("summary", chapter.getTitle());
-            db.insert("tbl_jchapter", null, cv);
+            cv.put("file_url", chapter.getFile_url());
+            db.insert("tbl_cache_jchapter", null, cv);
         }
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
     }
 
     /**
      *
      * @param finishedBookList finished book list, to fill
-     * @param updatedBookList updated book list, to fill
+     * @param unfinishedBookList updated book list, to fill
      * @param chapterList chapter list, to fill
      * @note params must be initialized in advance
      */
-    private void queryDB(ArrayList<JBook> finishedBookList, ArrayList<JBook> updatedBookList, ArrayList<JChapter> chapterList) {
+    public void queryDB(ArrayList<JBook> finishedBookList, ArrayList<JBook> unfinishedBookList, ArrayList<JChapter> chapterList) {
 
         db = dbhelper.getWritableDatabase();
+        db.beginTransaction();
+
         Cursor cursor = null;
-
-        cursor = db.query("tbl_finished_jbook", null, null, null, null, null, null, null);
+        cursor = db.query("tbl_cache_jbook", null, null, null, null, null, null, null);
         if (cursor.getCount() > 0) {
             for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()) {
                 JBook jBook = new JBook();
@@ -106,37 +99,33 @@ public class SearchArticleDAO {
                 jBook.setSummary(cursor.getString(cursor.getColumnIndex("summary")));
                 jBook.setImg_url(cursor.getString(cursor.getColumnIndex("img_url")));
                 jBook.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-                finishedBookList.add(jBook);
+                jBook.setFinished(cursor.getInt(cursor.getColumnIndex("finished")));
+                if (jBook.getFinished() == 1) {
+                    finishedBookList.add(jBook);
+                }
+                else {
+                    unfinishedBookList.add(jBook);
+                }
             }
         }
         cursor.close();
 
-        cursor = db.query("tbl_updated_jbook", null, null, null, null, null, null, null);
-        if (cursor.getCount() > 0) {
-            for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()) {
-                JBook jBook = new JBook();
-                jBook.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                jBook.setAuthor(cursor.getString(cursor.getColumnIndex("author")));
-                jBook.setSummary(cursor.getString(cursor.getColumnIndex("summary")));
-                jBook.setImg_url(cursor.getString(cursor.getColumnIndex("img_url")));
-                jBook.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-                updatedBookList.add(jBook);
-            }
-        }
-        cursor.close();
-
-        cursor = db.query("tbl_jchapter", null, null, null, null, null, null, null);
+        cursor = db.query("tbl_cache_jchapter", null, null, null, null, null, null, null);
         if (cursor.getCount() > 0) {
             for (cursor.moveToFirst(); !(cursor.isAfterLast()); cursor.moveToNext()) {
                 JChapter jChapter = new JChapter();
                 jChapter.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 jChapter.setTitle(cursor.getString(cursor.getColumnIndex("title")));
                 jChapter.setBookid(cursor.getInt(cursor.getColumnIndex("bookid")));
-                jChapter.setSequenceid(cursor.getString(cursor.getColumnIndex("sequenceid")));
+                jChapter.setSequenceid(cursor.getInt(cursor.getColumnIndex("sequenceid")));
+                jChapter.setFile_url(cursor.getString(cursor.getColumnIndex("file_url")));
                 chapterList.add(jChapter);
             }
         }
         cursor.close();
+
+        db.setTransactionSuccessful();
+        db.endTransaction();
     }
 }
 

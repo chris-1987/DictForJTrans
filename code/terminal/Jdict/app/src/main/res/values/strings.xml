@@ -7,4 +7,5 @@
     <string name="title_activity_search_word">SearchWordActivity</string>
     <string name="title_activity_search_word_result">SearchWordResultActivity</string>
     <string name="name_db_search_word">SearchWord</string>
+    <string name="title_activity_show_book">ShowBookActivity</string>
 </resources>

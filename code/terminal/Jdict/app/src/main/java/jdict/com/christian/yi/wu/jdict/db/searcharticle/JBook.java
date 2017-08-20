@@ -18,6 +18,16 @@ public class JBook {
 
     private String summary;
 
+    private int finished;
+
+    public int getFinished() {
+        return finished;
+    }
+
+    public void setFinished(int finished) {
+        this.finished = finished;
+    }
+
     public String getAuthor() {
         return author;
     }
@@ -66,6 +76,7 @@ public class JBook {
                 ", title='" + title + '\'' +
                 ", img_url='" + img_url + '\'' +
                 ", summary='" + summary + '\'' +
+                ", finished=" + finished +
                 '}';
     }
 }

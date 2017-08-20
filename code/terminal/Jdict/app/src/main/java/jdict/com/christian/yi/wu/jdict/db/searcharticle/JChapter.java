@@ -12,7 +12,17 @@ public class JChapter {
 
     private String title;
 
-    private String sequenceid;
+    private int sequenceid;
+
+    private String file_url;
+
+    public String getFile_url() {
+        return file_url;
+    }
+
+    public void setFile_url(String file_url) {
+        this.file_url = file_url;
+    }
 
     public int getBookid() {
         return bookid;
@@ -30,11 +40,11 @@ public class JChapter {
         this.id = id;
     }
 
-    public String getSequenceid() {
+    public int getSequenceid() {
         return sequenceid;
     }
 
-    public void setSequenceid(String sequenceid) {
+    public void setSequenceid(int sequenceid) {
         this.sequenceid = sequenceid;
     }
 
@@ -52,7 +62,8 @@ public class JChapter {
                 "bookid=" + bookid +
                 ", id=" + id +
                 ", title='" + title + '\'' +
-                ", sequenceid='" + sequenceid + '\'' +
+                ", sequenceid=" + sequenceid +
+                ", file_url='" + file_url + '\'' +
                 '}';
     }
 }

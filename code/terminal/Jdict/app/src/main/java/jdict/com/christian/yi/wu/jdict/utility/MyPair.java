@@ -6,9 +6,9 @@ package jdict.com.christian.yi.wu.jdict.utility;
 
 public class MyPair<T1, T2> {
 
-    T1 first;
+    public T1 first;
 
-    T2 second;
+    public T2 second;
 
     MyPair(T1 first, T2 second) {
 
