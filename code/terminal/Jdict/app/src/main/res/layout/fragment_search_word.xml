@@ -15,21 +15,19 @@
 
         <ImageView
             android:id="@+id/search_word_image"
-            android:layout_weight ="1"
             android:layout_width="0dp"
             android:layout_height="30pt"
+            android:layout_weight="1"
             android:src="@drawable/search_word_icon" />
 
         <Button
             android:id="@+id/search_word_button"
-            android:layout_weight = "4"
             android:layout_width="0dp"
             android:layout_height="30pt"
+            android:layout_weight="4"
             android:background="#50000000"
+            android:hint="请输入查询内容"
             android:textColorHint="#FFCD8C95"
-            android:hint = "请输入查询内容"
-            android:textSize = "15sp"/>
-
+            android:textSize="15sp" />
     </LinearLayout>
-
 </RelativeLayout>

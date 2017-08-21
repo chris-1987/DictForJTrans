@@ -4,15 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/search_word_language_listview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
     <Button
         android:id="@+id/search_word_language_button"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:hint="清空历史"/>
+
+    <ListView
+        android:id="@+id/search_word_language_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

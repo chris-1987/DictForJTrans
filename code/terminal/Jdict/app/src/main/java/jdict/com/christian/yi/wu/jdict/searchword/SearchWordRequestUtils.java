@@ -109,24 +109,6 @@ public class SearchWordRequestUtils {
                     // decode result encoded in json
                     JSONObject resultJson = new JSONObject(builder.toString());
 
-                    // check if success
-                    try {
-
-                        String error_code = resultJson.getString("error_code");
-
-                        if (error_code != null) {
-
-                            System.out.println("出错代码:" + error_code);
-
-                            System.out.println("出错信息:" + resultJson.getString("error_msg"));
-
-                            callBack.onFailure("出错信息:" + resultJson.getString("error_msg"));
-                        }
-                    } catch (Exception e) {
-
-                        e.printStackTrace();
-                    }
-
                     // retrieve result
                     JSONArray jsonArray = (JSONArray) resultJson.get("trans_result");
 
@@ -137,15 +119,13 @@ public class SearchWordRequestUtils {
                     text = URLDecoder.decode(text, UTF8);
 
                 } catch (IOException e) {
-
                     e.printStackTrace();
+                    callBack.onFailure(e.toString());
                 } catch (JSONException e) {
-
                     e.printStackTrace();
+                    callBack.onFailure(e.toString());
                 } finally {// finalize
-
                     if (conn != null) {
-
                         conn.disconnect();
                     }
                 }

@@ -43,7 +43,7 @@ public class SearchArticleDAO {
     /**
      * update database
      *
-     * @param bookList book list
+     * @param bookList    book list
      * @param chapterList chapter list
      * @note call the function after the execution of clearDB
      */
@@ -78,10 +78,9 @@ public class SearchArticleDAO {
     }
 
     /**
-     *
-     * @param finishedBookList finished book list, to fill
+     * @param finishedBookList   finished book list, to fill
      * @param unfinishedBookList updated book list, to fill
-     * @param chapterList chapter list, to fill
+     * @param chapterList        chapter list, to fill
      * @note params must be initialized in advance
      */
     public void queryDB(ArrayList<JBook> finishedBookList, ArrayList<JBook> unfinishedBookList, ArrayList<JChapter> chapterList) {
