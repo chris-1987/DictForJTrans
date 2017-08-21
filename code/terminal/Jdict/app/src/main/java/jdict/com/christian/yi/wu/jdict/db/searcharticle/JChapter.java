@@ -16,6 +16,8 @@ public class JChapter {
 
     private String file_url;
 
+    private long addtime;
+
     public String getFile_url() {
         return file_url;
     }
@@ -56,11 +58,20 @@ public class JChapter {
         this.title = title;
     }
 
+    public long getAddtime() {
+        return addtime;
+    }
+
+    public void setAddtime(long addtime) {
+        this.addtime = addtime;
+    }
+
     @Override
     public String toString() {
         return "JChapter{" +
-                "bookid=" + bookid +
+                "addtime=" + addtime +
                 ", id=" + id +
+                ", bookid=" + bookid +
                 ", title='" + title + '\'' +
                 ", sequenceid=" + sequenceid +
                 ", file_url='" + file_url + '\'' +

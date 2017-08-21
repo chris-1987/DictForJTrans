@@ -17,37 +17,41 @@ import java.util.Iterator;
 public class SearchArticleDAO {
 
     private SearchArticleDatabaseHelper dbhelper;
-
     private SQLiteDatabase db;
 
     public SearchArticleDAO(Context context) {
-
         dbhelper = SearchArticleDatabaseHelper.newInstance(context);
     }
 
     /**
-     * clear database
+     * do: clear cached book
      */
-    public void clearDB() {
-
+    public void clearCachedBook() {
         db = dbhelper.getWritableDatabase();
         db.beginTransaction();
-
         db.delete("tbl_cache_jbook", null, null);
-        db.delete("tbl_cache_jchapter", null, null);
-
         db.setTransactionSuccessful();
         db.endTransaction();
     }
 
     /**
-     * update database
-     *
-     * @param bookList    book list
-     * @param chapterList chapter list
-     * @note call the function after the execution of clearDB
+     * do: clear cached chapters
      */
-    public void updateDB(ArrayList<JBook> bookList, ArrayList<JChapter> chapterList) {
+    public void clearCachedChapter() {
+        db = dbhelper.getWritableDatabase();
+        db.beginTransaction();
+        db.delete("tbl_cache_jchapter", null, null);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
+    /**
+     * do: update tbl_cache_jbook
+     *
+     * @param bookList book list, to cache
+     * @note call the function after the execution of clearCachedBook
+     */
+    public void updateCachedBook(ArrayList<JBook> bookList) {
 
         db = dbhelper.getWritableDatabase();
         db.beginTransaction();
@@ -63,6 +67,18 @@ public class SearchArticleDAO {
             db.insert("tbl_cache_jbook", null, cv);
         }
 
+        db.setTransactionSuccessful();
+        db.endTransaction();
+    }
+
+    /**
+     * do: update tbl_cache_jchapter
+     *
+     * @param chapterList chapter list, to cache
+     */
+    public void updateCachedChapter(ArrayList<JChapter> chapterList) {
+        db = dbhelper.getWritableDatabase();
+        db.beginTransaction();
         for (JChapter chapter : chapterList) {
             ContentValues cv = new ContentValues();
             cv.put("id", chapter.getId());
@@ -70,9 +86,9 @@ public class SearchArticleDAO {
             cv.put("sequenceid", chapter.getSequenceid());
             cv.put("title", chapter.getTitle());
             cv.put("file_url", chapter.getFile_url());
+            cv.put("addtime", chapter.getAddtime());
             db.insert("tbl_cache_jchapter", null, cv);
         }
-
         db.setTransactionSuccessful();
         db.endTransaction();
     }
@@ -101,8 +117,7 @@ public class SearchArticleDAO {
                 jBook.setFinished(cursor.getInt(cursor.getColumnIndex("finished")));
                 if (jBook.getFinished() == 1) {
                     finishedBookList.add(jBook);
-                }
-                else {
+                } else {
                     unfinishedBookList.add(jBook);
                 }
             }

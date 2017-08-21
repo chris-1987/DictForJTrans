@@ -37,14 +37,6 @@ public class SearchArticleRequestUtils {
 
     private static final String extendURL_ARTICLE = "/search_article.php";
 
-    private static int offsetArticleFinished = 0;
-
-    private static final int NUM_ARTICLE_FINISHED = 6;
-
-    private static int offsetArticleUpdated = 0;
-
-    private static final int NUM_ARTICLE_UPDATED = 6;
-
     private static long cacheBookTime = new Date(0).getTime() / 1000; // in seconds
 
     public SearchArticleRequestUtils() {
@@ -114,43 +106,25 @@ public class SearchArticleRequestUtils {
      *
      * @param callBack callback func
      */
-    public void retrieveFinishedBook(final HttpCallBack callBack) {
+    public ArrayList<JBook> retrieveBook(int mFetchedNum, int fetchBookNum, boolean isFinished, final HttpCallBack callBack) {
 
-        int paramNum = 5;
-
+        int paramNum = 6;
         MyPair.StringPair[] params = new MyPair.StringPair[paramNum];
 
         // number of params
         params[0] = new MyPair.StringPair("paramNum", Integer.toString(paramNum));
         final String urlFinal = baseURL + extendURL_ARTICLE;
         params[1] = new MyPair.StringPair("url", urlFinal);
-        params[2] = new MyPair.StringPair("act", "retrieveFinishedBook");
-        params[3] = new MyPair.StringPair("offset", Integer.toString(offsetArticleFinished));
-        params[4] = new MyPair.StringPair("num", Integer.toString(NUM_ARTICLE_FINISHED));
+        params[2] = new MyPair.StringPair("act", "retrieveBook");
+        params[3] = new MyPair.StringPair("isFinished", isFinished ? "1" : "0");
+        params[4] = new MyPair.StringPair("fetchedNum", Integer.toString(mFetchedNum));
+        params[5] = new MyPair.StringPair("fetchBookNum", Integer.toString(fetchBookNum));
 
         // execute httpRequest
         PullByHttpPost asyncTask = new PullByHttpPost(callBack);
         asyncTask.execute(params);
-    }
 
-
-    public void retrieveUpdatedBook(final HttpCallBack callBack) {
-
-        int paramNum = 5;
-
-        MyPair.StringPair[] params = new MyPair.StringPair[paramNum];
-
-        // number of params
-        params[0] = new MyPair.StringPair("paramNum", Integer.toString(paramNum));
-        final String urlFinal = baseURL + extendURL_ARTICLE;
-        params[1] = new MyPair.StringPair("url", urlFinal);
-        params[2] = new MyPair.StringPair("act", "retrieveUpdatedBook");
-        params[3] = new MyPair.StringPair("offset", Integer.toString(offsetArticleUpdated));
-        params[4] = new MyPair.StringPair("num", Integer.toString(NUM_ARTICLE_UPDATED));
-
-        // execute httpRequest
-        PullByHttpPost asyncTask = new PullByHttpPost(callBack);
-        asyncTask.execute(params);
+        return null;
     }
 
 }

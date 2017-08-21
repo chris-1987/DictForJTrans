@@ -47,22 +47,22 @@ public class WordViewListAdapter extends BaseAdapter {
 
         View view = null;
 
-        if(convertView != null){
+        if (convertView != null) {
 
             view = convertView;
-        }else {
+        } else {
 
-            view =  View.inflate(mContext, R.layout.list_item, null);
+            view = View.inflate(mContext, R.layout.list_item, null);
         }
 
-        //找到控件
+        // find controllers
         TextView item_word_content = (TextView) view.findViewById(R.id.item_word_content);
         TextView item_word_meaning = (TextView) view.findViewById(R.id.item_word_meaning);
 
-        //找到内容
+        // find content
         WordView wordview = mWordViewList.get(i);
 
-        //设置内容
+        // set content
         item_word_content.setText(wordview.getContent());
         item_word_meaning.setText(wordview.getMeaning());
 

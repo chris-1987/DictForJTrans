@@ -95,7 +95,7 @@ public class SearchArticleFragment extends Fragment implements View.OnClickListe
                     if (!result.equals("no data")) {
                         Log.d("refreshCachedBook", result);
                         SearchArticleDAO dao = new SearchArticleDAO(getContext());
-                        dao.clearDB(); // clear db
+                        dao.clearCachedBook(); // clear db
                         // update db
                         ArrayList<JBook> bookList = new ArrayList<JBook>();
                         JSONArray jArr = new JSONArray(result);
@@ -110,8 +110,7 @@ public class SearchArticleFragment extends Fragment implements View.OnClickListe
                             book.setFinished(json_data.getInt("finished"));
                             bookList.add(book);
                         }
-                        ArrayList<JChapter> chapterList = new ArrayList<JChapter>();
-                        dao.updateDB(bookList, chapterList);
+                        dao.updateCachedBook(bookList);
                     } else {
 
                         Log.d("refreshCachedBook", "no data");
@@ -160,7 +159,7 @@ public class SearchArticleFragment extends Fragment implements View.OnClickListe
             }
         });
 
-        // show (hard code)
+        // show cached books in the view (hard code)
         // TODO: better way with no hard code, should also modify sqlUtile
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 
@@ -197,7 +196,7 @@ public class SearchArticleFragment extends Fragment implements View.OnClickListe
             }
         }
 
-        // set listeners
+        // set listeners to the controllers
         mUnfinishedBookButton.setOnClickListener(this);
         mUnfinishedBookImageButton1.setOnClickListener(this);
         mUnfinishedBookImageButton2.setOnClickListener(this);
@@ -226,12 +225,12 @@ public class SearchArticleFragment extends Fragment implements View.OnClickListe
 
         if (view == mUnfinishedBookButton) {
             Intent intent = new Intent(getActivity(), ShowBookActivity.class);
-            intent.putExtra("booktype", "unfinished");
+            intent.putExtra("isFinished", false);
             startActivity(intent);
         } else if (view == mFinishedBookButton) {
             Toast.makeText(getContext(), "here", Toast.LENGTH_LONG);
             Intent intent = new Intent(getActivity(), ShowBookActivity.class);
-            intent.putExtra("booktype", "finished");
+            intent.putExtra("isFinished", true);
             startActivity(intent);
         } else if (view == mUnfinishedBookImageButton1) {
 
@@ -251,6 +250,5 @@ public class SearchArticleFragment extends Fragment implements View.OnClickListe
         } else if (view == mFinishedBookImageButton3) {
 
         }
-
     }
 }
